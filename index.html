@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For TANYA ✨</title>
+     <audio autoplay loop muted id="bg-music">
+        <source src="mi.mpeg" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Unmute after page interaction (needed for most browsers)
+        window.addEventListener('click', function () {
+            const music = document.getElementById("bg-music");
+            music.muted = false;
+            music.play();
+        });
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Dancing+Script:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           CSS RESET & BASE STYLES
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            color: #4a3f5c;
+            background: linear-gradient(135deg, #ffeff8 0%, #f8e8ff 50%, #fff5f5 100%);
+        }
+
+        /* ============================================
+           CUSTOM CURSOR
+           ============================================ */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(219, 140, 185, 0.95);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001;
+            transition: transform 0.15s ease;
+            box-shadow: 0 0 15px rgba(219, 140, 185, 0.6);
+        }
+
+        .cursor-outline {
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            border: 2px solid rgba(219, 140, 185, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+            box-shadow: 0 0 20px rgba(219, 140, 185, 0.3);
+        }
+
+        .cursor-glow {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255, 192, 218, 0.35) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease;
+        }
+
+        .cursor-hover .cursor-outline {
+            width: 50px;
+            height: 50px;
+            border-color: rgba(255, 160, 200, 0.7);
+        }
+
+        .cursor-hover .cursor-dot {
+            transform: scale(1.5);
+            background: rgba(255, 160, 200, 1);
+        }
+
+        /* ============================================
+           AUDIO CONTROL BUTTON
+           ============================================ */
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(219, 140, 185, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: none;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(219, 140, 185, 0.2);
+        }
+
+        .audio-control:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 25px rgba(219, 140, 185, 0.4);
+        }
+
+        /* ============================================
+           PROGRESS INDICATOR (DOTS)
+           ============================================ */
+        .progress-dots {
+            position: fixed;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(219, 140, 185, 0.3);
+            cursor: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+        }
+
+        .progress-dot:hover {
+            background: rgba(219, 140, 185, 0.6);
+            transform: scale(1.2);
+        }
+
+        .progress-dot.active {
+            background: rgba(219, 140, 185, 0.95);
+            box-shadow: 0 0 15px rgba(219, 140, 185, 0.8), 0 0 30px rgba(219, 140, 185, 0.4);
+            transform: scale(1.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* ============================================
+           NAVIGATION BUTTONS
+           ============================================ */
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 245, 252, 0.92) 100%);
+            color: #8a5a7a;
+            box-shadow: 0 4px 20px rgba(219, 140, 185, 0.25);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(219, 140, 185, 0.2);
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(219, 140, 185, 0.45);
+            background: linear-gradient(135deg, #ffc0da 0%, #e0b8f0 100%);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .nav-btn:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        /* ============================================
+           SECTIONS CONTAINER
+           ============================================ */
+        .sections-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px 120px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(100px) scale(0.96);
+            filter: blur(12px);
+            transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) scale(1);
+            filter: blur(0);
+        }
+
+        .section.exit-left {
+            opacity: 0;
+            transform: translateX(-100px) scale(0.96);
+            filter: blur(12px);
+        }
+
+        .section.exit-right {
+            opacity: 0;
+            transform: translateX(100px) scale(0.96);
+            filter: blur(12px);
+        }
+
+        /* ============================================
+           SECTION BACKGROUNDS (shifted more toward soft pink)
+           ============================================ */
+        .section-1 { background: linear-gradient(135deg, #ffe8f3 0%, #f0e0f8 50%, #fff8f2 100%); }
+        .section-2 { background: linear-gradient(135deg, #fff5fb 0%, #faf0ff 50%, #fffaf8 100%); }
+        .section-3 { background: linear-gradient(135deg, #ffe8f5 0%, #f0d8f8 100%); }
+        .section-4 { background: linear-gradient(135deg, #fff2f8 0%, #f5e8ff 50%, #fffaf5 100%); }
+        .section-5 { background: linear-gradient(135deg, #f5e8ff 0%, #ffe8f2 100%); }
+        .section-6 { background: linear-gradient(135deg, #ffc0e0 0%, #e0b8f5 50%, #ffd0e8 100%); }
+        .section-7 { background: linear-gradient(135deg, #fff8fc 0%, #f8eaff 100%); }
+        .section-8 { background: linear-gradient(135deg, #ffe8f5 0%, #f0e5ff 100%); }
+        .section-9 { background: linear-gradient(135deg, #f5e8ff 0%, #ffe8f2 100%); }
+
+        /* ============================================
+           TYPOGRAPHY
+           ============================================ */
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 600;
+            color: #5a4a6a;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 600;
+            color: #5a4a6a;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .subtext {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            color: #9a6a8a;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .content p {
+            font-size: clamp(0.95rem, 2vw, 1.1rem);
+            text-align: center;
+            max-width: 650px;
+            margin-bottom: 18px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .content p:nth-child(1) { animation-delay: 0.2s; }
+        .content p:nth-child(2) { animation-delay: 0.4s; }
+        .content p:nth-child(3) { animation-delay: 0.6s; }
+        .content p:nth-child(4) { animation-delay: 0.8s; }
+
+        .emphasized {
+            font-weight: 500;
+            color: #8a5a7a;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+        }
+
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            color: #9a6a8a;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        /* ============================================
+           ANIMATIONS
+           ============================================ */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-15px) translateX(10px); }
+            50% { transform: translateY(-5px) translateX(-5px); }
+            75% { transform: translateY(-25px) translateX(5px); }
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.02); }
+        }
+
+        @keyframes gentleGlow {
+            0%, 100% { 
+                text-shadow: 0 0 20px rgba(255, 180, 210, 0.4),
+                             0 0 40px rgba(255, 160, 200, 0.2);
+            }
+            50% { 
+                text-shadow: 0 0 30px rgba(255, 180, 210, 0.6),
+                             0 0 60px rgba(255, 160, 200, 0.3),
+                             0 0 80px rgba(255, 140, 190, 0.2);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.15); opacity: 0.8; }
+        }
+
+        /* ============================================
+           FLOATING ELEMENTS
+           ============================================ */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-heart, .floating-petal, .floating-sparkle {
+            position: absolute;
+            animation: floatSlow 8s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        .floating-heart {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+        }
+
+        .floating-petal {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+        }
+
+        .floating-sparkle {
+            font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        /* ============================================
+           SECTION-SPECIFIC STYLES
+           ============================================ */
+        
+        /* Section 1 - Landing */
+        .section-1 h1 {
+            font-size: clamp(1.8rem, 4.5vw, 3rem);
+            font-style: italic;
+        }
+
+        /* Section 3 - Creative Soul (Decorative Flowers) */
+        .decorative-flowers {
+            position: absolute;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            opacity: 0.7;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .flower-1 { top: 15%; left: 10%; animation-delay: 0s; }
+        .flower-2 { top: 20%; right: 12%; animation-delay: 1s; }
+        .flower-3 { bottom: 20%; left: 8%; animation-delay: 2s; }
+        .flower-4 { bottom: 25%; right: 10%; animation-delay: 3s; }
+
+        /* ============================================
+           Section 6 - Birthday (Peak Moment) - ENHANCED
+           ============================================ */
+        .section-6 h1 {
+            font-size: clamp(2rem, 5.5vw, 4rem);
+            animation: gentleGlow 3s ease-in-out infinite;
+            color: #5a3a6a;
+            position: relative;
+        }
+
+        .section-6 h1::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 220, 240, 0.4) 50%, 
+                transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .birthday-emojis {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 25px;
+            animation: softPulse 2.5s ease-in-out infinite;
+        }
+
+        /* Enhanced candle glow with breathing effect */
+        .candle-glow {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, 
+                rgba(255, 230, 180, 0.35) 0%, 
+                rgba(255, 200, 220, 0.2) 40%,
+                transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: breathe 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        /* Secondary glow layer */
+        .candle-glow-outer {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, 
+                rgba(255, 200, 230, 0.15) 0%, 
+                transparent 60%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: breathe 5s ease-in-out infinite;
+            animation-delay: 0.5s;
+            z-index: 0;
+        }
+
+        /* Celebration burst container */
+        .celebration-burst {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Center glow that expands */
+        .center-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(255, 200, 230, 0.6) 30%,
+                rgba(255, 180, 220, 0.3) 60%,
+                transparent 80%);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        .center-glow.animate {
+            animation: expandGlow 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes expandGlow {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            30% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(15);
+                opacity: 0;
+            }
+        }
+
+        /* Burst particles */
+        .burst-particle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .burst-particle.animate {
+            animation: burstOut 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes burstOut {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            15% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0.6);
+                opacity: 0;
+            }
+        }
+
+        /* Gentle floating particles after burst */
+        .gentle-float {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: gentleFloatIn 1s ease-out forwards, floatSlow 8s ease-in-out infinite;
+            animation-delay: var(--delay), calc(var(--delay) + 1s);
+        }
+
+        @keyframes gentleFloatIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.5);
+            }
+            100% {
+                opacity: 0.7;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Section 7 - Poem Card */
+        .poem-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px 50px;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(160, 100, 140, 0.15);
+            border: 2px solid rgba(255, 200, 230, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .poem-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            color: #8a5a7a;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .poem-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+            line-height: 2;
+            color: #5a4a6a;
+            text-align: center;
+            white-space: pre-line;
+        }
+
+        /* Section 9 - Close Button */
+        .close-btn {
+            padding: 18px 50px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: none;
+            background: linear-gradient(135deg, #ffc0da 0%, #e0b8f0 100%);
+            color: white;
+            box-shadow: 0 6px 25px rgba(219, 140, 185, 0.4);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 30px;
+        }
+
+        .close-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 35px rgba(219, 140, 185, 0.55);
+        }
+
+        /* ============================================
+           CLOSING OVERLAY (FINAL EXPERIENCE)
+           ============================================ */
+        .closing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffe8f5 0%, #f5e0ff 50%, #fff0f8 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.5s;
+        }
+
+        .closing-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .closing-heart {
+            font-size: clamp(4rem, 10vw, 6rem);
+            margin-bottom: 30px;
+            animation: heartBeat 2s ease-in-out infinite;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.8s ease 0.5s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s;
+        }
+
+        .closing-overlay.active .closing-heart {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.08); }
+            60% { transform: scale(1); }
+        }
+
+        .closing-message {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 500;
+            color: #5a4a6a;
+            text-align: center;
+            margin-bottom: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.8s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.8s;
+        }
+
+        .closing-overlay.active .closing-message {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .closing-sparkle {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            color: #9a6a8a;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.8s ease 1.2s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.2s;
+        }
+
+        .closing-overlay.active .closing-sparkle {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .closing-floating {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: floatSlow 8s ease-in-out infinite;
+        }
+
+        .closing-overlay.active .closing-floating {
+            opacity: 0.5;
+            transition: opacity 1s ease 1.5s;
+        }
+
+        /* ============================================
+           PARTICLE BURST EFFECT
+           ============================================ */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            font-size: 1.5rem;
+            animation: particleBurst 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes particleBurst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        @media (max-width: 768px) {
+            .section {
+                padding: 50px 25px 130px;
+            }
+
+            .navigation {
+                bottom: 30px;
+                gap: 15px;
+            }
+
+            .nav-btn {
+                padding: 12px 25px;
+                font-size: 0.85rem;
+            }
+
+            .progress-dots {
+                right: 15px;
+                gap: 10px;
+            }
+
+            .progress-dot {
+                width: 10px;
+                height: 10px;
+            }
+
+            .audio-control {
+                width: 45px;
+                height: 45px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .poem-card {
+                padding: 30px 25px;
+                margin: 0 15px;
+            }
+
+            .decorative-flowers {
+                font-size: 2rem;
+                opacity: 0.5;
+            }
+
+            .flower-1 { top: 10%; left: 5%; }
+            .flower-2 { top: 12%; right: 5%; }
+            .flower-3 { bottom: 15%; left: 5%; }
+            .flower-4 { bottom: 18%; right: 5%; }
+
+            .candle-glow {
+                width: 250px;
+                height: 250px;
+            }
+
+            .candle-glow-outer {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cursor-dot, .cursor-outline, .cursor-glow {
+                display: none;
+            }
+
+            body, html, .nav-btn, .close-btn, .audio-control, .progress-dot {
+                cursor: auto;
+            }
+
+            .section {
+                padding: 40px 20px 140px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .content p {
+                font-size: 0.9rem;
+            }
+
+            .navigation {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ============================================
+           CONTENT WRAPPER Z-INDEX
+           ============================================ */
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ============================================
+           CLICK PROMPT (INITIAL)
+           ============================================ */
+        .click-prompt {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(130, 90, 120, 0.7);
+            animation: pulse 2s ease-in-out infinite;
+            z-index: 100;
+        }
+
+        .click-prompt.hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        /* Hide UI when closing overlay is active */
+        .closing-overlay.active ~ .audio-control,
+        .closing-overlay.active ~ .progress-dots,
+        .closing-overlay.active ~ .navigation {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        /* ============================================
+   PREMIUM PHOTO BACKGROUND SYSTEM
+   ============================================ */
+
+.photo-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Base photo */
+.bg-photo {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    opacity: 0.45; /* slightly more visible */
+    filter: none;  /* blur removed */
+    transition: transform 0.4s ease;
+    animation: floatSlow 14s ease-in-out infinite;
+}
+
+/* Polaroid Style */
+.polaroid {
+    background: white;
+    padding: 10px 10px 30px 10px;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* Heart Shape */
+.heart-shape {
+    clip-path: path("M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 4 4 6.5 4 8 4 9.5 5 10.2 6.3 10.9 5 12.4 4 14 4 16.5 4 18.5 6 18.5 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z");
+    clip-path: circle(50% at 50% 40%);
+}
+
+/* Slideshow Fade */
+.fade-photo {
+    animation: photoFade 12s infinite;
+}
+
+@keyframes photoFade {
+    0% { opacity: 0; }
+    10% { opacity: 0.35; }
+    40% { opacity: 0.35; }
+    50% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* Parallax effect */
+.parallax {
+    transition: transform 0.2s ease-out;
+}
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         AUDIO ELEMENTS
+         ============================================ -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://yourdomain.com/background-music.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="birthdayAudio" loop preload="auto">
+        <source src="https://yourdomain.com/birthday-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ============================================
+         CLOSING OVERLAY (FINAL EXPERIENCE)
+         ============================================ -->
+    <div class="closing-overlay" id="closingOverlay">
+        <div class="closing-floating" style="top: 15%; left: 10%;">💗</div>
+        <div class="closing-floating" style="top: 20%; right: 15%; animation-delay: 1s;">🌸</div>
+        <div class="closing-floating" style="bottom: 25%; left: 12%; animation-delay: 2s;">✨</div>
+        <div class="closing-floating" style="bottom: 20%; right: 10%; animation-delay: 1.5s;">💕</div>
+        <div class="closing-floating" style="top: 40%; left: 5%; animation-delay: 0.5s;">🌺</div>
+        <div class="closing-floating" style="top: 35%; right: 8%; animation-delay: 2.5s;">💫</div>
+        
+        <div class="closing-heart">💗</div>
+        <p class="closing-message">Thank you for being you, TANYA.</p>
+        <p class="closing-sparkle">✨ Stay Happy & Healthy ✨ <br>
+          ✨  A Small Gift from Som Choudhary ✨       </p>
+    </div>
+
+    <!-- ============================================
+         CUSTOM CURSOR
+         ============================================ -->
+    <div class="cursor-glow"></div>
+    <div class="cursor-outline"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- ============================================
+         AUDIO CONTROL BUTTON
+         ============================================ -->
+    <button class="audio-control" id="audioToggle" aria-label="Toggle audio">
+        🔇
+    </button>
+
+    <!-- ============================================
+         PROGRESS INDICATOR DOTS
+         ============================================ -->
+    <div class="progress-dots">
+        <div class="progress-dot active" data-section="0"></div>
+        <div class="progress-dot" data-section="1"></div>
+        <div class="progress-dot" data-section="2"></div>
+        <div class="progress-dot" data-section="3"></div>
+        <div class="progress-dot" data-section="4"></div>
+        <div class="progress-dot" data-section="5"></div>
+        <div class="progress-dot" data-section="6"></div>
+        <div class="progress-dot" data-section="7"></div>
+        <div class="progress-dot" data-section="8"></div>
+    </div>
+
+    <!-- ============================================
+         NAVIGATION BUTTONS
+         ============================================ -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled>← Back</button>
+        <button class="nav-btn" id="nextBtn">Next →</button>
+    </div>
+
+    <!-- ============================================
+         CLICK PROMPT
+         ============================================ -->
+    <div class="click-prompt" id="clickPrompt">Click anywhere to begin ✨</div>
+
+    <!-- ============================================
+         SECTIONS WRAPPER
+         ============================================ -->
+    <div class="sections-wrapper">
+        
+        <!-- SECTION 1 — LANDING -->
+        <section class="section section-1 active" data-index="0">
+            <div class="photo-background">
+    <img src="WhatsApp Image 2026-02-28 at 1.08.58 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.08.59 AM.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.43.57 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="floating-elements" id="floatingElements1"></div>
+            <div class="content">
+                <h1>"Some people don't enter your life loudly…"</h1>
+                <p class="subtext">their presence itself feels like calm.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 2 — APPRECIATION -->
+        <section class="section section-2" data-index="1">
+            <div class="photo-background">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.00 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.01 AM.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.43.56 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="floating-elements" id="floatingElements2"></div>
+            <div class="content">
+                <h2>A Gentle Presence</h2>
+                <p>There's something rare about people who carry kindness naturally. Not loudly, not for show — just in the way they exist.</p>
+                <p>Tanya, you have that quality. A warmth that feels simple, genuine, and effortlessly beautiful.</p>
+                <p>Your presence doesn't demand attention, yet it makes everything feel a little softer, a little lighter.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 3 — CREATIVE SOUL -->
+        <section class="section section-3" data-index="2">
+            <div class="photo-background">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.00 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="taniii.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.01 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="floating-elements" id="floatingElements3"></div>
+            <div class="decorative-flowers flower-1">🌸</div>
+            <div class="decorative-flowers flower-2">🌺</div>
+            <div class="decorative-flowers flower-3">🌼</div>
+            <div class="decorative-flowers flower-4">💐</div>
+            <div class="content">
+                <h2>The Way You See the World</h2>
+                <p>Creativity isn't just about what you make — it's about how you see.</p>
+                <p>And you see the world with curiosity, thoughtfulness, and beauty.</p>
+                <p>That artistic soul of yours? It makes everything around you feel a little more meaningful.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 4 — DREAMS & HAPPINESS -->
+        <section class="section section-4" data-index="3">
+            <div class="photo-background">
+    <img src="WhatsApp Image 2026-02-28 at 1.43.56 AM (1).jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.08.58 AM.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.01 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="floating-elements" id="floatingElements4"></div>
+            <div class="content">
+                <h2>Your Happiness Matters</h2>
+                <p>I hope this year brings you closer to everything you dream of.</p>
+                <p>I hope you chase what makes you happy — freely, confidently, without hesitation.</p>
+                <p>And I hope you never forget that you deserve all the beautiful things you wish for.</p>
+                <p class="emphasized">Because your happiness truly matters.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 5 — COMFORT & SAFETY -->
+        <section class="section section-5" data-index="4">
+            <div class="photo-background">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.00 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.00 AM.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="taniii.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="floating-elements" id="floatingElements5"></div>
+            <div class="content">
+                <h2>You Don't Have to Rush</h2>
+                <p class="handwritten">"You don't have to rush life."</p>
+                <p class="handwritten">"You are already enough."</p>
+                <p style="margin-top: 25px;">Take your time. Breathe. Grow at your own pace. The world will wait. You're exactly where you need to be.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 6 — BIRTHDAY (PEAK MOMENT) - ENHANCED -->
+        <section class="section section-6" data-index="5">
+            <div class="photo-background">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.01 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.43.56 AM.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.43.57 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="candle-glow-outer"></div>
+            <div class="candle-glow"></div>
+            <div class="celebration-burst" id="celebrationBurst">
+                <div class="center-glow" id="centerGlow"></div>
+            </div>
+            <div class="floating-elements" id="floatingElements6"></div>
+            <div class="content">
+                <div class="birthday-emojis">🌸 🎂 💝</div>
+                <h1>Happy 19th Birthday, Tanya ✨</h1>
+                <p>Here's to a year filled with calm confidence and quiet strength. May you find happiness in small moments and success in big dreams.</p>
+                <p>May this year be gentle with you, and may you be gentle with yourself.</p>
+                <p class="emphasized">Wishing you the most beautiful year ahead 💫</p>
+            </div>
+        </section>
+
+        <!-- SECTION 7 — POEM -->
+        <section class="section section-7" data-index="6">
+<div class="photo-background">
+    <img src="taniii.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.01 AM.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.43.56 AM (1).jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="floating-elements" id="floatingElements7"></div>
+            <div class="poem-card">
+                <h3 class="poem-title">A Quiet Thought</h3>
+                <p class="poem-text">Some people shine, some softly stay,
+Some make chaos drift away.
+
+Syra, you're calm in crowded days,
+A gentle smile, a thoughtful gaze.
+
+No need for noise, no need to try,
+Your presence speaks, and that's why—
+
+The world feels lighter, just a bit,
+When someone like you exists in it.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 8 — INDIRECT BOND -->
+        <section class="section section-8" data-index="7">
+            <div class="photo-background">
+    <img src="WhatsApp Image 2026-02-28 at 1.43.56 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.08.58 AM.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.08.58 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="floating-elements" id="floatingElements8"></div>
+            <div class="content">
+                <h2>An Honest Feeling</h2>
+                <p>Some connections feel real quickly. Not forced, not dramatic — just natural.</p>
+                <p>I don't know why, but I feel comfortable here. In this space, in this bond.</p>
+                <p>And I'd like it to stay — gently, honestly, without forcing anything.</p>
+                <p>No expectations. No pressure. Just… this.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 9 — CLOSING -->
+        <section class="section section-9" data-index="8">
+            <div class="photo-background">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.00 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:10%; left:8%; animation-delay:0s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.43.57 AM.jpeg" class="bg-photo heart-shape parallax fade-photo" style="bottom:15%; right:12%; animation-delay:4s;">
+    <img src="WhatsApp Image 2026-02-28 at 1.09.01 AM.jpeg" class="bg-photo polaroid parallax fade-photo" style="top:50%; left:40%; animation-delay:8s;">
+</div>
+            <div class="floating-elements" id="floatingElements9"></div>
+            <div class="content">
+                <h2>One Last Thing</h2>
+                <p>This wasn't about impressing you.</p>
+                <p>It was about appreciating you.</p>
+                <p class="emphasized" style="font-size: clamp(1.2rem, 2.5vw, 1.5rem); margin-top: 30px;">Stay happy, Tanya . Always.</p>
+                <button class="close-btn" id="closeBtn">Close with a smile 😊</button>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ============================================
+        // STATE MANAGEMENT
+        // ============================================
+        let currentSection = 0;
+        const totalSections = 9;
+        let isMuted = true;
+        let audioUnlocked = false;
+        let isTransitioning = false;
+        let birthdayBurstTriggered = false;
+        let isAudioFading = false;
+
+        const FADE_DURATION = 1500;
+        const BG_MUSIC_VOLUME = 0.6;
+        const BIRTHDAY_MUSIC_VOLUME = 0.7;
+        const BIRTHDAY_SECTION = 5;
+
+        // DOM Elements
+        const sections = document.querySelectorAll('.section');
+        const progressDots = document.querySelectorAll('.progress-dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const audioToggle = document.getElementById('audioToggle');
+        const bgMusic = document.getElementById('bgMusic');
+        const birthdayAudio = document.getElementById('birthdayAudio');
+        const clickPrompt = document.getElementById('clickPrompt');
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        const cursorGlow = document.querySelector('.cursor-glow');
+        const closingOverlay = document.getElementById('closingOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // ============================================
+        // AUDIO UTILITIES
+        // ============================================
+        function fadeIn(audio, targetVolume, duration) {
+            return new Promise((resolve) => {
+                if (isMuted || isAudioFading) {
+                    resolve();
+                    return;
+                }
+
+                isAudioFading = true;
+                audio.volume = 0;
+                
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        const startTime = performance.now();
+                        
+                        function animate(currentTime) {
+                            if (isMuted) {
+                                audio.volume = 0;
+                                isAudioFading = false;
+                                resolve();
+                                return;
+                            }
+                            
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const easeProgress = 1 - Math.pow(1 - progress, 3);
+                            audio.volume = targetVolume * easeProgress;
+                            
+                            if (progress < 1) {
+                                requestAnimationFrame(animate);
+                            } else {
+                                audio.volume = targetVolume;
+                                isAudioFading = false;
+                                resolve();
+                            }
+                        }
+                        
+                        requestAnimationFrame(animate);
+                    }).catch(() => {
+                        isAudioFading = false;
+                        resolve();
+                    });
+                } else {
+                    isAudioFading = false;
+                    resolve();
+                }
+            });
+        }
+
+        function fadeOut(audio, duration) {
+            return new Promise((resolve) => {
+                if (audio.paused || audio.volume === 0) {
+                    audio.pause();
+                    isAudioFading = false;
+                    resolve();
+                    return;
+                }
+
+                isAudioFading = true;
+                const startTime = performance.now();
+                const startVolume = audio.volume;
+                
+                function animate(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeProgress = Math.pow(progress, 2);
+                    audio.volume = startVolume * (1 - easeProgress);
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        audio.volume = 0;
+                        audio.pause();
+                        isAudioFading = false;
+                        resolve();
+                    }
+                }
+                
+                requestAnimationFrame(animate);
+            });
+        }
+
+        async function startBgMusic() {
+            if (isMuted || !audioUnlocked) return;
+            
+            birthdayAudio.pause();
+            birthdayAudio.volume = 0;
+            
+            await fadeIn(bgMusic, BG_MUSIC_VOLUME, FADE_DURATION);
+        }
+
+        async function startBirthdayMusic() {
+            if (isMuted || !audioUnlocked) return;
+            
+            await fadeOut(bgMusic, FADE_DURATION);
+            birthdayAudio.currentTime = 0;
+            await fadeIn(birthdayAudio, BIRTHDAY_MUSIC_VOLUME, FADE_DURATION);
+        }
+
+        async function resumeBgMusicFromBirthday() {
+            if (isMuted || !audioUnlocked) return;
+            
+            await fadeOut(birthdayAudio, FADE_DURATION);
+            await fadeIn(bgMusic, BG_MUSIC_VOLUME, FADE_DURATION);
+        }
+
+        // ============================================
+        // AUDIO TRANSITION HANDLER
+        // ============================================
+        async function handleAudioForSection(newSection, oldSection) {
+            if (!audioUnlocked || isMuted) return;
+
+            // Section 0 is always silent
+            if (newSection === 0) {
+                fadeOut(bgMusic, 500);
+                fadeOut(birthdayAudio, 500);
+                return;
+            }
+
+            // Entering birthday section
+            if (newSection === BIRTHDAY_SECTION) {
+                await startBirthdayMusic();
+                return;
+            }
+
+            // Leaving birthday section to another section
+            if (oldSection === BIRTHDAY_SECTION && newSection !== BIRTHDAY_SECTION) {
+                await resumeBgMusicFromBirthday();
+                return;
+            }
+
+            // Coming from section 0 to any other non-birthday section
+            if (oldSection === 0 && newSection > 0 && newSection !== BIRTHDAY_SECTION) {
+                await startBgMusic();
+                return;
+            }
+
+            // Ensure bg music is playing on normal sections
+            if (newSection > 0 && newSection !== BIRTHDAY_SECTION) {
+                if (bgMusic.paused && !isAudioFading) {
+                    await startBgMusic();
+                }
+            }
+        }
+
+        // ============================================
+        // AUDIO TOGGLE
+        // ============================================
+        function toggleAudio() {
+            isMuted = !isMuted;
+            audioToggle.textContent = isMuted ? '🔇' : '🔊';
+            
+            if (isMuted) {
+                bgMusic.pause();
+                bgMusic.volume = 0;
+                birthdayAudio.pause();
+                birthdayAudio.volume = 0;
+            } else {
+                audioUnlocked = true;
+                
+                if (currentSection === 0) {
+                    return;
+                } else if (currentSection === BIRTHDAY_SECTION) {
+                    birthdayAudio.volume = 0;
+                    fadeIn(birthdayAudio, BIRTHDAY_MUSIC_VOLUME, FADE_DURATION);
+                } else {
+                    bgMusic.volume = 0;
+                    fadeIn(bgMusic, BG_MUSIC_VOLUME, FADE_DURATION);
+                }
+            }
+        }
+
+        // ============================================
+        // FIRST CLICK HANDLER
+        // ============================================
+        function handleFirstClick() {
+            if (audioUnlocked) return;
+            
+            audioUnlocked = true;
+            isMuted = false;
+            audioToggle.textContent = '🔊';
+            clickPrompt.classList.add('hidden');
+            
+            bgMusic.load();
+            birthdayAudio.load();
+            
+            if (currentSection > 0 && currentSection !== BIRTHDAY_SECTION) {
+                startBgMusic();
+            } else if (currentSection === BIRTHDAY_SECTION) {
+                startBirthdayMusic();
+            }
+        }
+
+        // ============================================
+        // CUSTOM CURSOR
+        // ============================================
+        let mouseX = 0, mouseY = 0;
+        let outlineX = 0, outlineY = 0;
+        let glowX = 0, glowY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursorDot.style.left = mouseX - 4 + 'px';
+            cursorDot.style.top = mouseY - 4 + 'px';
+        });
+
+        function animateCursor() {
+            outlineX += (mouseX - outlineX) * 0.12;
+            outlineY += (mouseY - outlineY) * 0.12;
+            glowX += (mouseX - glowX) * 0.08;
+            glowY += (mouseY - glowY) * 0.08;
+
+            cursorOutline.style.left = outlineX - 17.5 + 'px';
+            cursorOutline.style.top = outlineY - 17.5 + 'px';
+            cursorGlow.style.left = glowX - 30 + 'px';
+            cursorGlow.style.top = glowY - 30 + 'px';
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        const interactiveElements = document.querySelectorAll('button, .progress-dot, .close-btn');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('cursor-hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('cursor-hover');
+            });
+        });
+
+        // ============================================
+        // FLOATING ELEMENTS GENERATION
+        // ============================================
+        function generateFloatingElements() {
+            const configs = {
+                floatingElements1: { hearts: 5, petals: 8, sparkles: 10 },
+                floatingElements2: { hearts: 8, petals: 3, sparkles: 6 },
+                floatingElements3: { hearts: 4, petals: 6, sparkles: 8 },
+                floatingElements4: { hearts: 7, petals: 4, sparkles: 10 },
+                floatingElements5: { hearts: 3, petals: 10, sparkles: 6 },
+                floatingElements6: { hearts: 12, petals: 10, sparkles: 18 },
+                floatingElements7: { hearts: 4, petals: 8, sparkles: 6 },
+                floatingElements8: { hearts: 8, petals: 4, sparkles: 8 },
+                floatingElements9: { hearts: 6, petals: 6, sparkles: 10 }
+            };
+
+            const heartEmojis = ['💗', '💕', '💖', '💝', '🩷'];
+            const petalEmojis = ['🌸', '🌺', '🌷', '🪻', '🌹'];
+            const sparkleEmojis = ['✨', '⭐', '💫', '🌟'];
+
+            Object.keys(configs).forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+
+                const config = configs[containerId];
+
+                for (let i = 0; i < config.hearts; i++) {
+                    const heart = document.createElement('span');
+                    heart.className = 'floating-heart';
+                    heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                    heart.style.left = Math.random() * 90 + 5 + '%';
+                    heart.style.top = Math.random() * 80 + 10 + '%';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    heart.style.animationDuration = (6 + Math.random() * 4) + 's';
+                    container.appendChild(heart);
+                }
+
+                for (let i = 0; i < config.petals; i++) {
+                    const petal = document.createElement('span');
+                    petal.className = 'floating-petal';
+                    petal.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+                    petal.style.left = Math.random() * 90 + 5 + '%';
+                    petal.style.top = Math.random() * 80 + 10 + '%';
+                    petal.style.animationDelay = Math.random() * 5 + 's';
+                    petal.style.animationDuration = (7 + Math.random() * 5) + 's';
+                    container.appendChild(petal);
+                }
+
+                for (let i = 0; i < config.sparkles; i++) {
+                    const sparkle = document.createElement('span');
+                    sparkle.className = 'floating-sparkle';
+                    sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                    sparkle.style.left = Math.random() * 90 + 5 + '%';
+                    sparkle.style.top = Math.random() * 80 + 10 + '%';
+                    sparkle.style.animationDelay = Math.random() * 3 + 's';
+                    sparkle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                    container.appendChild(sparkle);
+                }
+            });
+        }
+
+        // ============================================
+        // BIRTHDAY CELEBRATION BURST
+        // ============================================
+        function triggerCelebrationBurst() {
+            if (birthdayBurstTriggered) return;
+            birthdayBurstTriggered = true;
+
+            const burstContainer = document.getElementById('celebrationBurst');
+            const centerGlow = document.getElementById('centerGlow');
+            
+            centerGlow.classList.add('animate');
+
+            const particles = ['💗', '🌸', '✨', '💕', '🌺', '💫', '⭐', '💖', '🌟', '🩷'];
+            const particleCount = 24;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('span');
+                particle.className = 'burst-particle';
+                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                
+                const angle = (360 / particleCount) * i + (Math.random() * 15 - 7.5);
+                const distance = 150 + Math.random() * 200;
+                const tx = Math.cos(angle * Math.PI / 180) * distance;
+                const ty = Math.sin(angle * Math.PI / 180) * distance;
+                
+                particle.style.setProperty('--tx', tx + 'px');
+                particle.style.setProperty('--ty', ty + 'px');
+                particle.style.fontSize = (1 + Math.random() * 1) + 'rem';
+                
+                burstContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.classList.add('animate');
+                }, i * 30);
+                
+                setTimeout(() => particle.remove(), 3000);
+            }
+
+            setTimeout(() => {
+                addGentleFloatingParticles(burstContainer);
+            }, 800);
+        }
+
+        function addGentleFloatingParticles(container) {
+            const particles = ['💗', '🌸', '✨', '💕', '💫'];
+            const count = 15;
+
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('span');
+                particle.className = 'gentle-float';
+                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                particle.style.left = Math.random() * 80 + 10 + '%';
+                particle.style.top = Math.random() * 70 + 15 + '%';
+                particle.style.setProperty('--delay', (i * 0.1) + 's');
+                particle.style.animationDuration = '1s, ' + (7 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function resetCelebrationBurst() {
+            birthdayBurstTriggered = false;
+            const burstContainer = document.getElementById('celebrationBurst');
+            const centerGlow = document.getElementById('centerGlow');
+            
+            const particles = burstContainer.querySelectorAll('.burst-particle, .gentle-float');
+            particles.forEach(p => p.remove());
+            
+            centerGlow.classList.remove('animate');
+        }
+
+        // ============================================
+        // PARTICLE BURST EFFECT
+        // ============================================
+        function createParticleBurst(x, y) {
+            const particles = ['💗', '🌸', '✨', '💕', '🌺', '💫'];
+            const count = 10;
+
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('span');
+                particle.className = 'particle';
+                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                
+                const angle = (360 / count) * i;
+                const distance = 60 + Math.random() * 50;
+                const tx = Math.cos(angle * Math.PI / 180) * distance;
+                const ty = Math.sin(angle * Math.PI / 180) * distance;
+                
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.setProperty('--tx', tx + 'px');
+                particle.style.setProperty('--ty', ty + 'px');
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 1200);
+            }
+        }
+
+        // ============================================
+        // SECTION NAVIGATION
+        // ============================================
+        function goToSection(index, direction = 'next') {
+            if (isTransitioning || index < 0 || index >= totalSections || index === currentSection) return;
+            
+            isTransitioning = true;
+            
+            const oldSection = currentSection;
+            const currentEl = sections[currentSection];
+            const nextEl = sections[index];
+
+            if (currentSection === BIRTHDAY_SECTION && index !== BIRTHDAY_SECTION) {
+                resetCelebrationBurst();
+            }
+
+            if (direction === 'next') {
+                currentEl.classList.add('exit-left');
+            } else {
+                currentEl.classList.add('exit-right');
+            }
+            currentEl.classList.remove('active');
+
+            setTimeout(() => {
+                currentEl.classList.remove('exit-left', 'exit-right');
+                nextEl.classList.add('active');
+                
+                progressDots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSections - 1;
+
+                currentSection = index;
+
+                handleAudioForSection(index, oldSection);
+
+                if (index === BIRTHDAY_SECTION) {
+                    setTimeout(() => triggerCelebrationBurst(), 400);
+                }
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 100);
+            }, 450);
+        }
+
+        // ============================================
+        // CLOSING OVERLAY
+        // ============================================
+        function showClosingOverlay() {
+            closingOverlay.classList.add('active');
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        
+        document.addEventListener('click', handleFirstClick, { once: true });
+
+        prevBtn.addEventListener('click', (e) => {
+            createParticleBurst(e.clientX, e.clientY);
+            goToSection(currentSection - 1, 'prev');
+        });
+
+        nextBtn.addEventListener('click', (e) => {
+            createParticleBurst(e.clientX, e.clientY);
+            goToSection(currentSection + 1, 'next');
+        });
+
+        progressDots.forEach((dot, index) => {
+            dot.addEventListener('click', (e) => {
+                createParticleBurst(e.clientX, e.clientY);
+                const direction = index > currentSection ? 'next' : 'prev';
+                goToSection(index, direction);
+            });
+        });
+
+        audioToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleAudio();
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+            createParticleBurst(e.clientX, e.clientY);
+            showClosingOverlay();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (closingOverlay.classList.contains('active')) return;
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                goToSection(currentSection + 1, 'next');
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                goToSection(currentSection - 1, 'prev');
+            }
+        });
+
+        document.addEventListener('wheel', (e) => e.preventDefault(), { passive: false });
+        document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            generateFloatingElements();
+            
+            prevBtn.disabled = true;
+            nextBtn.disabled = false;
+            
+            audioToggle.textContent = '🔇';
+        });
+
+        // ============================================
+        // TOUCH SUPPORT FOR MOBILE
+        // ============================================
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            if (closingOverlay.classList.contains('active')) return;
+            
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    goToSection(currentSection + 1, 'next');
+                } else {
+                    goToSection(currentSection - 1, 'prev');
+                }
+            }
+        }
+        /* ============================================
+   MOUSE PARALLAX FOR PHOTOS
+============================================ */
+
+document.addEventListener("mousemove", function(e) {
+    const photos = document.querySelectorAll(".parallax");
+    const x = (window.innerWidth / 2 - e.clientX) / 40;
+    const y = (window.innerHeight / 2 - e.clientY) / 40;
+
+    photos.forEach(photo => {
+        photo.style.transform = `translate(${x}px, ${y}px)`;
+    });
+});
+    </script>
+</body>
+</html>
